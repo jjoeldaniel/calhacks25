@@ -1,0 +1,102 @@
+---
+import {motion} from "framer-motion"
+import { hover, animate} from "motion"
+
+interface Props {
+    roomStringIdentifier : string;
+    connectionType : 0 | 1 | 2 | 3 // 0 : Disconnected, 1 : Connecting, 2 : Slow Connection, 3: Connected
+}
+const {roomStringIdentifier,connectionType = 0} = Astro.props;
+
+const ButtonVariant = {
+    Hover : {
+        scale:1.05,
+        y: -10
+    },
+    Tap : {
+        scale: .98,
+        y:0
+    }
+}
+
+    const whileTap = (el : Element | null) => {
+        console.log(el)
+        if (!el) return;
+        const anim = animate(el,{scale:.98,y:0})
+
+        return () => {
+            anim.stop()
+            animate(el,{scale:1,y:0})
+        }
+    }
+---
+
+<script>
+    import {motion} from "framer-motion"
+    import { hover, animate} from "motion"
+
+    hover(document.querySelectorAll(".animatedButton"), (el) => {
+        const anim = animate(el,{scale:1.05,y:-2})
+
+        return () => {
+            anim.stop()
+            animate(el,{scale:1,y:0})
+        }
+    }) 
+
+
+</script>
+
+<div class="w-full h-[95px] shrink-0 bg-main-bg-color border-t border-main-border-color relative px-6 py-4 flex justify-between items-center">
+    <!-- Room String Identifier -->
+    <span class="font-[inter] text-[14px] text-accent-text-color">
+        Room: {roomStringIdentifier}
+    </span>
+    <!-- Room String Identifier -->
+
+    <!-- Connection Status -->
+    <div class="max-w-[260px] w-full h-full grid grid-cols-4 items-center justify-center">
+        <!-- Mute -->
+        <motion.button className="h-full max-h-[52px] aspect-square bg-accent-bg-color rounded-full border border-main-border-color cursor-pointer animatedButton pointer-events-auto center-button-content">
+            <img src="/Icons/MicActive.svg" alt="">
+        </motion.button>
+
+        <!-- Open Chat -->
+        <motion.button className="h-full max-h-[52px] aspect-square bg-accent-bg-color rounded-full border border-main-border-color cursor-pointer animatedButton pointer-events-auto center-button-content">
+            <img src="/Icons/Chat.svg" alt="">
+        </motion.button>
+
+        <!-- Settings -->
+        <motion.button className="h-full max-h-[52px] aspect-square bg-accent-bg-color rounded-full border border-main-border-color cursor-pointer animatedButton pointer-events-auto center-button-content">
+            <img src="/Icons/Settings.svg" alt="">
+        </motion.button>
+
+        <!-- Hangup -->
+        <motion.button className="h-full max-h-[52px] aspect-square bg-main-red-color rounded-full border border-main-border-color cursor-pointer animatedButton pointer-events-auto center-button-content">
+            <img src="/Icons/HangUp.svg" alt="">
+        </motion.button>
+    </div>
+    <!--  -->
+
+
+    <!-- Connection Status -->
+    <div class="flex gap-2 items-center">
+        <div class="h-2 aspect-square rounded-full bg-main-green-color"/>
+        <span class="font=[inter] text-[14px] text-accent-text-color">Connected</span>
+    </div>
+
+</div>
+
+
+<style>
+    .padding-inherit {
+        padding: inherit
+    }
+
+    .center-button-content {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+
