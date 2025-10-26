@@ -55,12 +55,21 @@ const Sidebar : React.FC = () => {
       <div className='w-full h-full overflow-y-scroll p-3 flex flex-col'>
         <RoleSeparator roleName='AI' roleMemberAmount={1} index={0}/>
         <MemberContainer userData={{
-          userName:"James Charles",
-          headshot:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTgw7eIQZkGXL2Gt13LNypS1sWY-ALUXufTCQ&s",
+          userName:MeetingInfo?.roomName,
+          headshot:MeetingInfo?.headshot,
           role: "AI",
           bio:"",
           pronouns: "idk/idkt"
         }}/>
+
+        <RoleSeparator roleName='user' roleMemberAmount={MeetingInfo?.members?.length} index={0}/>
+        {MeetingInfo?.members && MeetingInfo?.members?.map((user) => {
+          console.log(user)
+          return <>
+          
+          <MemberContainer userData={user}/>
+          </>
+        })}
       </div>
     </div>
   )

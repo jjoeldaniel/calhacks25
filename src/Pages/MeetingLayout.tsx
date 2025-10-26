@@ -60,8 +60,7 @@ const MeetingLayout: React.FC = () => {
       data['loaded'] = true
       SetMeetingRoomData(data)
     })
-
-    socket.emit("joinMeeting",{userInfo:UserInfo  ,meetingId: id})
+    
     socket.emit("getMeetingInfo",{
       meetingId: id
     })
@@ -72,7 +71,16 @@ const MeetingLayout: React.FC = () => {
     return () => {
       socket.emit("leaveMeeting",{userName: UserInfo?.userName, meetingId: id})
     }
-  }, [MeetingRoomData?.loaded])
+  }, [])
+
+  useEffect(() => {
+    socket.emit("joinMeeting",{userInfo:UserInfo  ,meetingId: id})
+  
+    return () => {
+      
+    }
+  }, [UserInfo])
+  
   
 
   
