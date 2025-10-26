@@ -5,13 +5,17 @@ import { useUI } from '../Contexts/UIContext'
 
 const UserSettings : React.FC = () => {
     const [, hidePopup] = usePopup()
-
-    const [getUsernameInput, setUsernameInput] = useState('') 
-    const [getPronounsInput, setPronounsInput] = useState('')
-    const [getBioInput, setBioInput] = useState('')
     const [UserSettings, setUserSettings] = useUI("UserSettings")
+    const [getUsernameInput, setUsernameInput] = useState(UserSettings?.userName || "") 
+    const [getPronounsInput, setPronounsInput] = useState(UserSettings?.pronouns || "")
+    const [getBioInput, setBioInput] = useState(UserSettings?.bio || "")
 
     function onSaveChanges() {
+        localStorage.setItem('UserSettings:userName',getUsernameInput)
+        localStorage.setItem('UserSettings:pronouns',getPronounsInput)
+        localStorage.setItem('UserSettings:bio',getBioInput)
+
+
         setUserSettings({
             userName: getUsernameInput,
             pronouns: getPronounsInput,

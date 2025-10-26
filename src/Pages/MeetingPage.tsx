@@ -1,9 +1,10 @@
 import React from 'react'
 import InputTextbox from '../Components/MeetingRoom/InputTextbox'
 import ChatInterface from '../Components/MeetingRoom/ChatInterface'
+import type { UserData } from './MeetingLayout';
 
 export interface Message {
-  userName: string;
+  userInfo: UserData;
   content: string;
   timestamp: Date;
   isAI: boolean;

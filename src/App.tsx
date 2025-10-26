@@ -6,10 +6,10 @@ import { UIRegister } from "./Contexts/UIContext"
 function App() {
 
   UIRegister("UserSettings", {
-          userName: '',
-          pronouns: '',
-          bio: ''
-      })
+    userName: localStorage.getItem("UserSettings:userName") || "",
+    pronouns: localStorage.getItem("UserSettings:pronouns") || "",
+    bio: localStorage.getItem("UserSettings:bio") || ""
+  })
 
   return (
     <>

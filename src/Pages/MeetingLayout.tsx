@@ -1,24 +1,29 @@
-import React from 'react'
-import { Outlet } from 'react-router-dom'
+import React, { useEffect } from 'react'
+import { Outlet, useParams } from 'react-router-dom'
 import Sidebar from '../Components/MeetingRoom/Sidebar'
 import Navbar from '../Components/MeetingRoom/Navbar'
 import { UIRegister, useUI } from '../Contexts/UIContext'
 import { motion } from 'motion/react'
+import { useSocket } from '../Contexts/SocketContext'
+import type { Message } from './MeetingPage'
 
 export interface UserData {
   headshot: string;
   userName: string;
   pronouns: string;
+  role: string;
   bio: string;
 }
 
 export interface MeetingRoomData {
-  totalActiveUsers: number;
+  loaded: boolean
   roomName: string;
   aiName: string;
-  aiIcon: string;
+  headshot: string;
+  meetingId: string
+  pastMessages : Message[];
 
-  activeUsers: [UserData]
+  members: UserData[];
   sidebarOpen: boolean
 }
 
@@ -28,29 +33,49 @@ const SidebarStateVariant = {
 }
 
 const MeetingLayout: React.FC = () => {
+  const { id } = useParams();
+  const socket = useSocket()
+
   UIRegister("UserSettings", {
-    userName: '',
-    pronouns: '',
-    bio: ''
+    userName: localStorage.getItem("UserSettings:userName") || "",
+    pronouns: localStorage.getItem("UserSettings:pronouns") || "",
+    bio: localStorage.getItem("UserSettings:bio") || ""
   })
 
   UIRegister("MeetingRoomData", {
-    totalActiveUsers: 0,
-    roomName: "2332",
-    aiName: "Zephyr the Wise",
-    aiIcon: "",
-
+    loaded : false,
+    headshot : "",
+    meetingId: "",
+    members: "",
+    roomName : "",
+    pastMessages : [],
     sidebarOpen: true,
-
-    activeUsers: [
-      {
-        headshot: "",
-        username: "",
-        role: "AI CHARACTER",
-        pronouns: "he/him"
-      }
-    ]
   }, { removeOnUnmount: true })
+
+  const [UserInfo] =useUI("UserSettings")
+  const [MeetingRoomData,SetMeetingRoomData] = useUI('MeetingRoomData')
+
+  useEffect(() => {
+    socket.once("meetingInfo",(data) => {
+      data['loaded'] = true
+      SetMeetingRoomData(data)
+    })
+
+    socket.emit("joinMeeting",{userInfo:UserInfo  ,meetingId: id})
+    socket.emit("getMeetingInfo",{
+      meetingId: id
+    })
+
+    
+    console.log('Called')
+  
+    return () => {
+      socket.emit("leaveMeeting",{userName: UserInfo?.userName, meetingId: id})
+    }
+  }, [MeetingRoomData?.loaded])
+  
+
+  
   const [MeetingInfo] = useUI("MeetingRoomData") as unknown as [
     MeetingRoomData,
     React.Dispatch<React.SetStateAction<MeetingRoomData>>

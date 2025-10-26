@@ -58,6 +58,7 @@ const Sidebar : React.FC = () => {
           userName:"James Charles",
           headshot:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTgw7eIQZkGXL2Gt13LNypS1sWY-ALUXufTCQ&s",
           role: "AI",
+          bio:"",
           pronouns: "idk/idkt"
         }}/>
       </div>

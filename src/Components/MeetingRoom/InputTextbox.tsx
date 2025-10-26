@@ -23,7 +23,7 @@ const Textbox: React.FC = () => {
 
     socket.emit('sendChatMessage', {
       "meetingId": id,
-      "user": {
+      "userInfo": {
         userName: userSettings?.userName || "You",
         pronouns: userSettings?.pronouns || "they/them",
         bio: userSettings?.bio || ""

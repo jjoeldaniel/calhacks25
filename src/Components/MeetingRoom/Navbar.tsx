@@ -7,7 +7,7 @@ import { useUI } from '../../Contexts/UIContext';
 const Navbar: React.FC = () => {
   const nav = useNavigate();
   const [MeetingInfo,UpdateMeetingInfo] = useUI("MeetingRoomData")
-
+  console.log(MeetingInfo)
   return (
     <div className='w-full h-[77px]'>
       <div className="border-b border-zinc-800 p-4">
@@ -23,7 +23,7 @@ const Navbar: React.FC = () => {
               <div className="w-10 h-10 rounded-full bg-linear-to-br from-purple-500 to-pink-500 flex items-center justify-center">
               </div>
               <div>
-                <h2 className="font-medium text-white">Room Name</h2>
+                <h2 className="font-medium text-white">{MeetingInfo?.roomName}</h2>
                 <p className="text-sm text-zinc-400">Room Character</p>
               </div>
             </div>
@@ -34,7 +34,7 @@ const Navbar: React.FC = () => {
               className={`inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm transition-all h-9 px-3 text-white bg-zinc-800`}
             >
               <Users className="w-4 h-4" />
-              <span>7</span>
+              <span>{MeetingInfo?.members?.length || 0}</span>
             </button>
             <button
               onClick={() => UpdateMeetingInfo({
