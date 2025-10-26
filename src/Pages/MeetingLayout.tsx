@@ -7,7 +7,7 @@ import { motion } from 'motion/react'
 
 export interface UserData {
   headshot : string;
-  username : string;
+  userName : string;
   role: string;
   pronouns: string
 }

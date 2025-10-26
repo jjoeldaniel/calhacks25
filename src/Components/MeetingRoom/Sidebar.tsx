@@ -32,7 +32,7 @@ const MemberContainer : React.FC<UserDataContainer> = ({userData}) => {
           <div className='absolute bg-[#00C950] rounded-full h-3 aspect-square -bottom-0.5 right-[-5px] border-2 border-secondary-bg '/>
         </div>
         <div className='flex flex-col w-full font-[inter]'>
-          <span className='text-main-text text-[14px]'>{userData.username}</span>
+          <span className='text-main-text text-[14px]'>{userData.userName}</span>
           <span className='text-accent-text text-[12px]'>{userData.pronouns}</span>
 
         </div>
@@ -55,7 +55,7 @@ const Sidebar : React.FC = () => {
       <div className='w-full h-full overflow-y-scroll p-3 flex flex-col'>
         <RoleSeparator roleName='AI' roleMemberAmount={1} index={0}/>
         <MemberContainer userData={{
-          username:"James Charles",
+          userName:"James Charles",
           headshot:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTgw7eIQZkGXL2Gt13LNypS1sWY-ALUXufTCQ&s",
           role: "AI",
           pronouns: "idk/idkt"
