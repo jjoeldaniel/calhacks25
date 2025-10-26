@@ -21,29 +21,29 @@ const ChatInterface: React.FC = () => {
 
   const socket = useSocket();
   const { id } = useParams();
-  
+
   const bottomRef = useRef<HTMLDivElement | null>(null);
 
   const [Messages, setMessages] = useState(MeetingInfo?.pastMessages || [])
 
   useEffect(() => {
     const handleNewMessage = (data: { message: Message }) => {
-      console.log("New MESAGE",data)
+      console.log("New MESAGE", data)
       setMessages((prev) => {
-        console.log(prev,data.message,[...prev,data.message])
-        return ([...prev,data.message])
+        console.log(prev, data.message, [...prev, data.message])
+        return ([...prev, data.message])
       })
     };
 
-    socket.on("newMessage",handleNewMessage)
+    socket.on("newMessage", handleNewMessage)
 
-    
-  
+
+
     return () => {
-      socket.off("newMessage",handleNewMessage)
+      socket.off("newMessage", handleNewMessage)
     }
   }, [])
-  
+
 
   useEffect(() => {
     if (Messages?.length === 0) {

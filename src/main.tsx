@@ -12,6 +12,8 @@ import { UIContextProvider } from './Contexts/UIContext.tsx'
 import { SocketProvider } from './Contexts/SocketContext.tsx'
 import CreateRoom from './Pages/CreateRoom.tsx'
 
+document.title = 'Mixer AI'
+
 const queryClient = new QueryClient()
 
 const router = createBrowserRouter([
@@ -22,15 +24,15 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <HomePage/>
+        element: <HomePage />
       },
       {
         path: "/create",
-        element: <CreateRoom/>
+        element: <CreateRoom />
       },
       {
         path: "/join",
-        element: <JoinPage/>
+        element: <JoinPage />
       },
     ]
   },
@@ -51,7 +53,7 @@ ReactDOM.createRoot(document.getElementById('root') as Element).render(
     <SocketProvider>
       <UIContextProvider>
         <PopupContextProvider>
-          <RouterProvider router={router}/>
+          <RouterProvider router={router} />
         </PopupContextProvider>
       </UIContextProvider>
     </SocketProvider>

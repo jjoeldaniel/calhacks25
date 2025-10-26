@@ -11,7 +11,7 @@ const NavBar : React.FC = () => {
             <div className='w-full max-w-4xl py-6 px-4 flex items-center justify-between'>
                 {/* Title */}
                 <div className='font-[inter] font-medium text-[24px] text-main-text'>
-                    <h1>AI Chat Rooms</h1>
+                    <h1>Mixer AI</h1>
                 </div>
                 {/* Title */}
 
