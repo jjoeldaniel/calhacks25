@@ -7,7 +7,7 @@ const NavBar : React.FC = () => {
     const [showPopup] = usePopup()
 
     return (
-        <div className='w-full h-[90px] border border-main-border shrink-0 bg-main-bg flex justify-center'>
+        <div className='w-full h-[90px] border-b border-main-border shrink-0 bg-main-bg flex justify-center'>
             <div className='w-full max-w-4xl py-6 px-4 flex items-center justify-between'>
                 {/* Title */}
                 <div className='font-[inter] font-medium text-[24px] text-main-text'>
