@@ -3,19 +3,19 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import ButtonVariant from '../Variants/ButtonVariant'
 
-const JoinPage : React.FC = () => {
+const JoinPage: React.FC = () => {
     const nav = useNavigate()
     const [CurrentPin, setCurrentPin] = useState("")
 
     return (
         <div className='w-full h-full flex flex-col justify-center items-center'>
-            <motion.div initial={{opacity:0}} animate={{opacity:1}} transition={{duration:.5, ease:"easeIn"}} 
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: .25, ease: "easeIn" }}
                 className='w-full max-w-2xl h-[430px] flex flex-col p-[33px] bg-secondary-bg rounded-2xl gap-6'
             >
                 {/* Top Bar */}
                 <div className='w-full justify-between flex font-[inter] font-medium items-center'>
                     <span className='text-[30px] text-main-text'>Join Room</span>
-                    <motion.span whileHover={{color:"#ffff"}} transition={{duration:.5}} onClick={() => nav('/')} className='text-[16px] text-accent-text cursor-pointer'>Cancel</motion.span>
+                    <motion.span whileHover={{ color: "#ffff" }} transition={{ duration: .5 }} onClick={() => nav('/')} className='text-[16px] text-accent-text cursor-pointer'>Cancel</motion.span>
                 </div>
                 {/* Top Bar */}
 
@@ -31,9 +31,9 @@ const JoinPage : React.FC = () => {
                     {/* Icon */}
 
                     {/* Input */}
-                    <input type="number" value={CurrentPin} onChange={(event : React.ChangeEvent<HTMLInputElement>) => {
-                        console.log((event.target.value).length , event.target.maxLength )
-                        if ((event.target.value).length > event.target.maxLength ) return
+                    <input type="number" value={CurrentPin} onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                        console.log((event.target.value).length, event.target.maxLength)
+                        if ((event.target.value).length > event.target.maxLength) return
                         setCurrentPin(event.target.value)
                     }} maxLength={6} placeholder='000000' className='w-full h-20 px-6 bg-accent-bg rounded-[10px] font-[inter] text-[36px] text-[#52525C] outline-0' />
 

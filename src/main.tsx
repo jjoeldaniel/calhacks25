@@ -10,6 +10,7 @@ import { PopupContextProvider } from './Contexts/PopupContext.tsx'
 import MeetingLayout from './Pages/MeetingLayout.tsx'
 import { UIContextProvider } from './Contexts/UIContext.tsx'
 import { SocketProvider } from './Contexts/SocketContext.tsx'
+import CreateRoom from './Pages/CreateRoom.tsx'
 
 const queryClient = new QueryClient()
 
@@ -22,6 +23,10 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <HomePage/>
+      },
+      {
+        path: "/create",
+        element: <CreateRoom/>
       },
       {
         path: "/join",
