@@ -9,6 +9,7 @@ import JoinPage from './Pages/JoinPage.tsx'
 import { PopupContextProvider } from './Contexts/PopupContext.tsx'
 import MeetingLayout from './Pages/MeetingLayout.tsx'
 import { UIContextProvider } from './Contexts/UIContext.tsx'
+import { SocketProvider } from './Contexts/SocketContext.tsx'
 
 const queryClient = new QueryClient()
 
@@ -42,10 +43,12 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root') as Element).render(
   <QueryClientProvider client={queryClient}>
-    <UIContextProvider>
-      <PopupContextProvider>
-        <RouterProvider router={router}/>
-      </PopupContextProvider>
-    </UIContextProvider>
+    <SocketProvider>
+      <UIContextProvider>
+        <PopupContextProvider>
+          <RouterProvider router={router}/>
+        </PopupContextProvider>
+      </UIContextProvider>
+    </SocketProvider>
   </QueryClientProvider>
 )

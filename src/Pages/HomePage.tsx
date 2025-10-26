@@ -8,7 +8,7 @@ const HomePage : React.FC = () => {
     
     return (
         <div className='w-full h-full flex flex-col items-center justify-center'>
-            <motion.div initial={{opacity:0}} animate={{opacity:1}} transition={{duration:.5,delay:.25, ease:"easeIn"}} className='flex flex-col'>
+            <motion.div initial={{opacity:0}} animate={{opacity:1}} transition={{duration:.5, ease:"easeIn"}} className='flex flex-col'>
                 {/* Title */}
                 <div className='flex flex-col items-center'>
                     <span  className='font-[inter] text-[36px] text-main-text'>Welcome</span>

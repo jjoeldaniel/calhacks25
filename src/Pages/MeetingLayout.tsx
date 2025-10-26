@@ -34,7 +34,7 @@ const MeetingLayout : React.FC = () => {
     aiName: "Zephyr the Wise",
     aiIcon: "",
 
-    sidebarOpen : false,
+    sidebarOpen : true,
 
     activeUsers: [
       {

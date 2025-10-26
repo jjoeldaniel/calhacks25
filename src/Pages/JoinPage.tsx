@@ -9,7 +9,7 @@ const JoinPage : React.FC = () => {
 
     return (
         <div className='w-full h-full flex flex-col justify-center items-center'>
-            <motion.div initial={{opacity:0}} animate={{opacity:1}} transition={{duration:.5,delay:.25, ease:"easeIn"}} 
+            <motion.div initial={{opacity:0}} animate={{opacity:1}} transition={{duration:.5, ease:"easeIn"}} 
                 className='w-full max-w-2xl h-[430px] flex flex-col p-[33px] bg-secondary-bg rounded-2xl gap-6'
             >
                 {/* Top Bar */}
