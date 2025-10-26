@@ -7,6 +7,7 @@ import App from './App.tsx'
 import HomePage from './Pages/HomePage.tsx'
 import JoinPage from './Pages/JoinPage.tsx'
 import { PopupContextProvider } from './Contexts/PopupContext.tsx'
+import MeetingLayout from './Pages/MeetingLayout.tsx'
 
 const queryClient = new QueryClient()
 
@@ -21,15 +22,21 @@ const router = createBrowserRouter([
         element: <HomePage/>
       },
       {
-        path: "meeting/:id",
-        element: <MeetingPage/> 
-      },
-      {
         path: "/join",
         element: <JoinPage/>
       },
     ]
-  }
+  },
+  {
+    path: '/meeting',
+    element: <MeetingLayout />,
+    children: [
+      {
+        path: ':id',
+        element: <MeetingPage />,
+      },
+    ],
+  },
 ])
 
 ReactDOM.createRoot(document.getElementById('root') as Element).render(
