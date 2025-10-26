@@ -3,7 +3,6 @@ import InputTextbox from '../Components/MeetingRoom/InputTextbox'
 import ChatInterface from '../Components/MeetingRoom/ChatInterface'
 
 export interface Message {
-  userId: string;
   userName: string;
   content: string;
   timestamp: Date;

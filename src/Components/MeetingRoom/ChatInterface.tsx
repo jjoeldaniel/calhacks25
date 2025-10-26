@@ -1,6 +1,6 @@
 import React, { useMemo, useState, useEffect, useRef } from "react";
 import type { Message } from "../../Pages/MeetingPage";
-import type { MeetingRoomData } from '../../Pages/MeetingLayout';
+import type { MeetingRoomData, UserData } from '../../Pages/MeetingLayout';
 import { useUI } from "../../Contexts/UIContext";
 import { AudioMessage } from './AudioMessage';
 import { Sparkles } from "lucide-react";
@@ -11,8 +11,14 @@ const ChatInterface: React.FC = () => {
         React.Dispatch<React.SetStateAction<MeetingRoomData>>,
         () => void
     ];
+    const [userSettings] = useUI("UserSettings") as unknown as [
+        UserData,
+        React.Dispatch<React.SetStateAction<UserData>>,
+        () => void
+    ];
 
-  const currentUsername = (MeetingInfo?.activeUsers && MeetingInfo.activeUsers[0]?.username) || 'You';
+    console.log("User Settings in ChatInterface:", userSettings);
+
     const sampleMessages: Message[] = useMemo(() => [
         {
             userId: 'ai',
@@ -33,7 +39,7 @@ const ChatInterface: React.FC = () => {
         },
         {
             userId: 'user1',
-            userName: currentUsername,
+            userName: userSettings.userName,
             content: "Hi Alex — glad you made it!",
             timestamp: new Date(Date.now() - 1000 * 60 * 20),
             isAI: false
@@ -56,12 +62,12 @@ const ChatInterface: React.FC = () => {
         },
         {
             userId: 'user1b',
-            userName: currentUsername,
+            userName: userSettings.userName,
             content: 'Not yet — but I can share some notes later.',
             timestamp: new Date(),
             isAI: false
         }
-    ], [MeetingInfo?.aiName, currentUsername]);
+    ], [MeetingInfo?.aiName, userSettings.userName]);
 
     const [messages] = useState<Message[]>(sampleMessages);
     const bottomRef = useRef<HTMLDivElement | null>(null);
@@ -76,11 +82,11 @@ const ChatInterface: React.FC = () => {
         <div className="flex-1 min-h-0 bg-chat-bg overflow-y-auto p-4">
             <div className="max-w-4xl mx-auto space-y-4">
                 {messages.map((message) => {
-                  const isSelf = message.userName === currentUsername;
+                  const isSelf = message.userName === userSettings.userName;
                   // Left-aligned (other users / AI)
                   if (!isSelf) {
                     return (
-                      <div key={message.userId + String(message.timestamp)} className="flex gap-3">
+                      <div key={message.userName + String(message.timestamp)} className="flex gap-3">
                         <div className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 ${message.isAI ? 'bg-linear-to-br from-purple-500 to-pink-500' : 'bg-zinc-700'}`}>
                           {message.isAI ? <Sparkles className="w-5 h-5" /> : <span className="text-sm">{message.userName}</span>}
                         </div>
@@ -107,7 +113,7 @@ const ChatInterface: React.FC = () => {
 
                   // Right-aligned (current user)
                   return (
-                    <div key={message.userId + String(message.timestamp)} className="flex gap-3 justify-end">
+                    <div key={message.userName + String(message.timestamp)} className="flex gap-3 justify-end">
                       <div className="flex-1 min-w-0 text-right">
                         <div className="flex items-baseline gap-2 mb-1 justify-end">
                           <span className={'text-white font-medium'}>{message.userName}</span>

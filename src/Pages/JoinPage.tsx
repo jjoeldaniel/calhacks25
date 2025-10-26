@@ -37,7 +37,7 @@ const JoinPage : React.FC = () => {
                         setCurrentPin(event.target.value)
                     }} maxLength={6} placeholder='000000' className='w-full h-20 px-6 bg-accent-bg rounded-[10px] font-[inter] text-[36px] text-[#52525C] outline-0' />
 
-                    <motion.button variants={ButtonVariant} whileHover={'Hover'} whileTap={"Tap"} className='w-full h-12 flex items-center justify-center bg-[#0092B8] rounded-[10px] gap-2 cursor-pointer disabled:pointer-events-none'>
+                    <motion.button onClick={() => nav("/meeting/123")} variants={ButtonVariant} whileHover={'Hover'} whileTap={"Tap"} className='w-full h-12 flex items-center justify-center bg-[#0092B8] rounded-[10px] gap-2 cursor-pointer disabled:pointer-events-none'>
                         <img src="/Icons/Join.svg" alt="" className='h-[15px]' />
                         <span className='font-[inter] text-[16px] text-main-text'>Join Room</span>
                     </motion.button>
