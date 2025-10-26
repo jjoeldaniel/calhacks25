@@ -47,7 +47,7 @@ const Sidebar : React.FC = () => {
   return (
     <div className='h-full w-60 bg-secondary-bg shrink-0 flex flex-col border-l border-main-border'>
       {/* Top Bar */}
-      <div className='flex items-center justify-between w-full h-[77px] font-[inter] text-[16px] text-accent-text border-b border-main-border px-4'>
+      <div className='flex items-center justify-between w-full h-[77px] shrink-0 font-[inter] text-[16px] text-accent-text border-b border-main-border px-4'>
         <span>Active Members</span>
       </div>
       {/* Top Bar */}
