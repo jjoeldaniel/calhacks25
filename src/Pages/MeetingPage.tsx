@@ -1,9 +1,14 @@
 import React from 'react'
+import InputTextbox from '../Components/MeetingRoom/InputTextbox'
+import ChatInterface from '../Components/MeetingRoom/ChatInterface'
 
 
-const MeetingPage : React.FC = () => {
+const MeetingPage: React.FC = () => {
   return (
-    <div>MeetingPage</div>
+    <div>
+      <ChatInterface />
+      <InputTextbox />
+    </div>
   )
 }
 
