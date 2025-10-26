@@ -6,6 +6,7 @@ import { AudioMessage } from './AudioMessage';
 import { Sparkles } from "lucide-react";
 import { useSocket } from "../../Contexts/SocketContext";
 import { Meta, useParams } from "react-router-dom";
+import BackendConfig from "../../Config/BackendConfig";
 
 const ChatInterface: React.FC = () => {
   const [MeetingInfo] = useUI("MeetingRoomData") as unknown as [
@@ -21,6 +22,12 @@ const ChatInterface: React.FC = () => {
 
   const socket = useSocket();
   const { id } = useParams();
+
+  // Helper function to get the base URL for audio files
+  const getAudioBaseUrl = () => {
+    const baseUrl = BackendConfig.socketEndpoint.replace('/socket', '').replace(/\/$/, '');
+    return baseUrl;
+  };
 
   const bottomRef = useRef<HTMLDivElement | null>(null);
 
@@ -81,7 +88,10 @@ const ChatInterface: React.FC = () => {
                   <p className="text-zinc-300 wrap-break-word">{message?.content}</p>
                   {/* Audio Message for AI */}
                   {message.isAI && (
-                    <AudioMessage duration={message.audioDuration || 10} audioUrl={message.audioUrl || "/buh.mp3"} />
+                    <AudioMessage 
+                      duration={message.audioDuration || 10} 
+                      audioUrl={message.audioUrl ? `${getAudioBaseUrl()}${message.audioUrl}` : "/buh.mp3"} 
+                    />
                   )}
                 </div>
               </div>

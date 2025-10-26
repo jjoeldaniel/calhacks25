@@ -18,19 +18,19 @@ const config: BackendConfig = {
     (globalThis as any).process?.env?.NODE_ENV === "production"
       ? ""
       : isLocalhost
-      ? "http://localhost:3000/api"
+      ? "http://localhost:3001/api"
       : isLocalIP
-      ? `http://${hostname}:3000/api` // Using actual LAN IP from browser URL
-      : `http://${getLocalIP()}:3000/api`,
+      ? `http://${hostname}:3001/api` // Using actual LAN IP from browser URL
+      : `http://${getLocalIP()}:3001/api`,
 
   socketEndpoint:
     (globalThis as any).process?.env?.NODE_ENV === "production"
       ? ""
       : isLocalhost
-      ? "http://localhost:3000/"
+      ? "http://localhost:3001/"
       : isLocalIP
-      ? `http://${hostname}:3000/`
-      : `http://${getLocalIP()}:3000/`,
+      ? `http://${hostname}:3001/`
+      : `http://${getLocalIP()}:3001/`,
 };
 
 export default config;
