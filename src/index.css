@@ -3,7 +3,8 @@
 
 @theme {
     --color-main-bg: #09090B;
-    --color-accent-bg: #3F3F46;
+    --color-accent-bg: #27272A;
+    --color-secondary-bg: #18181B;
 
     --color-main-text: #FFFFFF;
     --color-accent-text: #9F9FA9;
@@ -22,4 +23,16 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+
+/* For Mozilla Firefox */
+input[type="number"] {
+  -moz-appearance: textfield; 
 }

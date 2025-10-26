@@ -22,7 +22,7 @@ const HomePage : React.FC = () => {
                             borderColor : "var(--color-main-positive)",
                             transition: {delay:0,duration:.3}
                         }}
-                        className='w-full max-w-[328px] aspect-328/236 gap-3 p-[34px] flex flex-col items-start bg-main-bg border border-main-border rounded-2xl cursor-pointer'
+                        className='w-full max-w-[328px] aspect-328/236 gap-3 p-[34px] flex flex-col items-start bg-secondary-bg border border-main-border rounded-2xl cursor-pointer'
                     >
                         <div className='flex-center h-16 w-16 bg-main-positive rounded-full'>
                             <img src="/Icons/Plus.svg" alt="" />
@@ -36,7 +36,7 @@ const HomePage : React.FC = () => {
                             borderColor : "var(--color-accent-positive)",
                             transition: {delay:0,duration:.3}
                         }}
-                        className='w-full max-w-[328px] aspect-328/236 gap-3 p-[34px] flex flex-col items-start bg-main-bg border border-main-border rounded-2xl cursor-pointer'
+                        className='w-full max-w-[328px] aspect-328/236 gap-3 p-[34px] flex flex-col items-start bg-secondary-bg border border-main-border rounded-2xl cursor-pointer'
                     >
                         <div className='flex-center h-16 w-16 bg-accent-positive rounded-full'>
                             <img src="/Icons/Join.svg" alt="" />
