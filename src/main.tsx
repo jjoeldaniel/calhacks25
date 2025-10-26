@@ -13,7 +13,6 @@ const router = createBrowserRouter([
     element: <App />,
     errorElement: <div>Not Found</div>,
     children: [
-      
       {
         path: "meeting/:id",
         element: <MeetingPage/> 
