@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { usePopup } from '../Contexts/PopupContext'
 import { motion } from 'motion/react'
 import { UIRegister, useUI } from '../Contexts/UIContext'
@@ -11,13 +11,16 @@ const UserSettings : React.FC = () => {
     })
     const [, hidePopup] = usePopup()
 
+    const [getUsernameInput, setUsernameInput] = useState('') 
+    const [getPronounsInput, setPronounsInput] = useState('')
+    const [getBioInput, setBioInput] = useState('')
     const [UserSettings, setUserSettings] = useUI("UserSettings")
 
     function onSaveChanges() {
         setUserSettings({
-            userName: document.getElementById("userName")?.value || 'You',
-            pronouns: document.getElementById("pronouns")?.value || 'they/them',
-            bio: document.getElementById("bio")?.value || ''
+            userName: getUsernameInput,
+            pronouns: getPronounsInput,
+            bio: getBioInput
         })
         hidePopup()
         console.log("Saving changes...")
@@ -29,17 +32,17 @@ const UserSettings : React.FC = () => {
         // name
         <div className='flex flex-col gap-3'>
             <label className='font-[inter] text-[14px] text-accent-text'>Name</label>
-            <input type="text" id="userName" className='w-full h-10 px-3 bg-main-input-bg border border-main-border rounded-lg text-main-text font-[inter] text-[14px] focus:outline-none focus:border-main-positive transition-colors' placeholder='Enter your name'/>
+            <input value={getUsernameInput} onChange={(event) => setUsernameInput(event.target.value)} type="text" id="userName" className='w-full h-10 px-3 bg-main-input-bg border border-main-border rounded-lg text-main-text font-[inter] text-[14px] focus:outline-none focus:border-main-positive transition-colors' placeholder='Enter your name'/>
         </div>
         // pronouns
         <div className='flex flex-col gap-3'>
             <label className='font-[inter] text-[14px] text-accent-text'>Pronouns</label>
-            <input type="text" id="pronouns" className='w-full h-10 px-3 bg-main-input-bg border border-main-border rounded-lg text-main-text font-[inter] text-[14px] focus:outline-none focus:border-main-positive transition-colors' placeholder='Enter your pronouns (e.g. he/him)'/>
+            <input value={getPronounsInput} onChange={(event) => setPronounsInput(event.target.value)} type="text" id="pronouns" className='w-full h-10 px-3 bg-main-input-bg border border-main-border rounded-lg text-main-text font-[inter] text-[14px] focus:outline-none focus:border-main-positive transition-colors' placeholder='Enter your pronouns (e.g. he/him)'/>
         </div>
         // bio
         <div className='flex flex-col gap-3'>
             <label className='font-[inter] text-[14px] text-accent-text'>Bio</label>
-            <textarea id="bio" className='w-full h-20 px-3 py-2 bg-main-input-bg border border-main-border rounded-lg text-main-text font-[inter] text-[14px] focus:outline-none focus:border-main-positive transition-colors resize-none' placeholder='Enter a short bio about yourself'/>
+            <textarea value={getBioInput} onChange={(event) => setBioInput(event.target.value)} id="bio" className='w-full h-20 px-3 py-2 bg-main-input-bg border border-main-border rounded-lg text-main-text font-[inter] text-[14px] focus:outline-none focus:border-main-positive transition-colors resize-none' placeholder='Enter a short bio about yourself'/>
         </div>
         <button onClick={() => onSaveChanges()} className='hover:bg-green-700 w-full h-10 bg-main-positive hover:bg-main-positive-hover text-white font-[inter] text-[14px] rounded-lg transition-colors mt-4'>Save Changes</button>
     </motion.div>

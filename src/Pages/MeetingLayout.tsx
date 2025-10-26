@@ -8,8 +8,8 @@ import { motion } from 'motion/react'
 export interface UserData {
   headshot : string;
   userName : string;
-  role: string;
-  pronouns: string
+  pronouns: string;
+  bio: string;
 }
 
 export interface MeetingRoomData {

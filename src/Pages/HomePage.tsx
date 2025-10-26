@@ -1,10 +1,31 @@
 import { motion } from 'motion/react'
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useSocket } from '../Contexts/SocketContext'
+import { useUI } from '../Contexts/UIContext'
+import type { UserData } from './MeetingLayout'
 
 const HomePage : React.FC = () => {
     const nav = useNavigate()
-    
+    const socket = useSocket()
+
+    const [userSettings] = useUI("UserSettings") as unknown as [
+        UserData,
+        React.Dispatch<React.SetStateAction<UserData>>,
+        () => void
+    ];
+
+    function handleCreateRoom() {
+        console.log("User Settings in HomePage:", userSettings);
+        socket.emit('createMeeting', {
+            "modelId": "54e3a85ac9594ffa83264b8a494b901b",
+            "user": {
+                userName: userSettings?.userName || "You",
+                pronouns: userSettings?.pronouns || "they/them",
+                bio: userSettings?.bio || ""
+            }
+        })
+    }
     
     return (
         <div className='w-full h-full flex flex-col items-center justify-center'>
@@ -17,7 +38,7 @@ const HomePage : React.FC = () => {
                 {/* Title */}
 
                 <div className='grid grid-rows-2 md:grid-cols-2 md:grid-rows-1 p-[34px] gap-4'>
-                    <motion.button
+                    <motion.button onClick={() => handleCreateRoom()}
                         whileHover={{
                             borderColor : "var(--color-main-positive)",
                             transition: {delay:0,duration:.3}
@@ -31,7 +52,7 @@ const HomePage : React.FC = () => {
                         <span className='font-[inter] font-medium text-[16px] text-accent-text text-start'>Start a new chat room with an <br/> AI character and invite others</span>
                     </motion.button>
 
-                    <motion.button onClick={() => nav('/join')}
+                    <motion.button 
                         whileHover={{
                             borderColor : "var(--color-accent-positive)",
                             transition: {delay:0,duration:.3}
