@@ -2,7 +2,8 @@ import React from 'react'
 import { Outlet } from 'react-router-dom'
 import Sidebar from '../Components/MeetingRoom/Sidebar'
 import Navbar from '../Components/MeetingRoom/Navbar'
-import { UIRegister } from '../Contexts/UIContext'
+import { UIRegister, useUI } from '../Contexts/UIContext'
+import { motion } from 'motion/react'
 
 export interface UserData {
   headshot : string;
@@ -18,6 +19,12 @@ export interface MeetingRoomData {
   aiIcon: string;
 
   activeUsers: [UserData]
+  sidebarOpen: boolean
+}
+
+const SidebarStateVariant = {
+  Open : {x:0,width:"240px"},
+  Close : {x:250,width:"0%"}
 }
 
 const MeetingLayout : React.FC = () => {
@@ -26,6 +33,8 @@ const MeetingLayout : React.FC = () => {
     roomName: "2332",
     aiName: "Zephyr the Wise",
     aiIcon: "",
+
+    sidebarOpen : false,
 
     activeUsers: [
       {
@@ -36,6 +45,10 @@ const MeetingLayout : React.FC = () => {
       }
     ]
   },{removeOnUnmount:true})
+  const [MeetingInfo] = useUI("MeetingRoomData") as unknown as [
+    MeetingRoomData,
+    React.Dispatch<React.SetStateAction<MeetingRoomData>>
+  ];
 
   return (
     <div className='flex w-full h-dvh'>
@@ -43,9 +56,9 @@ const MeetingLayout : React.FC = () => {
             <Navbar/>
             <Outlet/>
         </main>
-        <div className='md:flex hidden'>
+        <motion.div variants={SidebarStateVariant} animate={MeetingInfo?.sidebarOpen ? "Open" : "Close"} className='md:flex hidden'>
             <Sidebar/>
-        </div>
+        </motion.div>
     </div>
   )
 }

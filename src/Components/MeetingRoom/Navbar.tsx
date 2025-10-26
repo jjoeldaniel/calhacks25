@@ -1,9 +1,12 @@
 import React from 'react'
 import { ArrowLeft, Users, User } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import type { MeetingRoomData } from '../../Pages/MeetingLayout';
+import { useUI } from '../../Contexts/UIContext';
 
 const Navbar: React.FC = () => {
   const nav = useNavigate();
+  const [MeetingInfo,UpdateMeetingInfo] = useUI("MeetingRoomData")
 
   return (
     <div className='w-full h-[77px]'>
@@ -34,6 +37,9 @@ const Navbar: React.FC = () => {
               <span>7</span>
             </button>
             <button
+              onClick={() => UpdateMeetingInfo({
+                sidebarOpen : !MeetingInfo?.sidebarOpen
+              })}
               className="inline-flex cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm transition-all h-9 px-3 hover:bg-zinc-800 text-white"
             >
               <User className="w-4 h-4" />

@@ -42,7 +42,7 @@ const MemberContainer : React.FC<UserDataContainer> = ({userData}) => {
 
 const Sidebar : React.FC = () => {
   const [MeetingInfo] = useUI("MeetingRoomData")
-
+  
 
   return (
     <div className='h-full w-60 bg-secondary-bg shrink-0 flex flex-col border-l border-main-border'>
