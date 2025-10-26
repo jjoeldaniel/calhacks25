@@ -2,28 +2,62 @@ import { useState, useRef, useEffect } from 'react';
 import { Play, Pause } from 'lucide-react';
 
 interface AudioMessageProps {
-  duration: number; // in seconds
+  duration: number; // fallback duration in seconds
   audioUrl?: string;
 }
 
-export function AudioMessage({ duration, audioUrl }: AudioMessageProps) {
+export function AudioMessage({ duration: fallbackDuration, audioUrl }: AudioMessageProps) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [progress, setProgress] = useState(0);
+  const [duration, setDuration] = useState<number>(fallbackDuration || 0);
   const audioRef = useRef<HTMLAudioElement | null>(null);
-  const animationRef = useRef<number>();
 
   useEffect(() => {
-    // Cleanup on unmount
-    return () => {
-      if (animationRef.current) {
-        cancelAnimationFrame(animationRef.current);
-      }
-      if (audioRef.current) {
-        audioRef.current.pause();
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    // When metadata is loaded, update duration
+    const onLoaded = () => {
+      if (!isNaN(audio.duration) && isFinite(audio.duration)) {
+        setDuration(audio.duration);
       }
     };
-  }, []);
+
+    // Update time/progress during playback
+    const onTimeUpdate = () => {
+      const d = audio.duration || fallbackDuration || 1;
+      if (d > 0) {
+        setCurrentTime(audio.currentTime);
+        setProgress((audio.currentTime / d) * 100);
+      }
+    };
+
+    const onEnded = () => {
+      setIsPlaying(false);
+      setProgress(0);
+      setCurrentTime(0);
+      if (audio) audio.currentTime = 0;
+    };
+
+    audio.addEventListener('loadedmetadata', onLoaded);
+    audio.addEventListener('timeupdate', onTimeUpdate);
+    audio.addEventListener('ended', onEnded);
+
+    return () => {
+      audio.removeEventListener('loadedmetadata', onLoaded);
+      audio.removeEventListener('timeupdate', onTimeUpdate);
+      audio.removeEventListener('ended', onEnded);
+      // Pause when unmounting
+      try {
+        audio.pause();
+      } catch {
+        // ignore
+      }
+    };
+    // We only want to set these listeners when audioRef changes
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [audioRef.current]);
 
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
@@ -31,55 +65,45 @@ export function AudioMessage({ duration, audioUrl }: AudioMessageProps) {
     return `${mins}:${secs.toString().padStart(2, '0')}`;
   };
 
-  const updateProgress = () => {
-    if (audioRef.current) {
-      const currentProgress = (audioRef.current.currentTime / audioRef.current.duration) * 100;
-      setProgress(currentProgress);
-      setCurrentTime(audioRef.current.currentTime);
-      
-      if (!audioRef.current.paused) {
-        animationRef.current = requestAnimationFrame(updateProgress);
-      }
-    }
-  };
+  const togglePlayPause = async () => {
+    const audio = audioRef.current;
+    if (!audio) return;
 
-  const togglePlayPause = () => {
-    if (audioRef.current) {
-      if (isPlaying) {
-        audioRef.current.pause();
-        if (animationRef.current) {
-          cancelAnimationFrame(animationRef.current);
+    if (isPlaying) {
+      audio.pause();
+      setIsPlaying(false);
+    } else {
+      try {
+        const playPromise = audio.play();
+        if (playPromise !== undefined) {
+          await playPromise;
         }
-      } else {
-        audioRef.current.play();
-        animationRef.current = requestAnimationFrame(updateProgress);
+        setIsPlaying(true);
+      } catch (err) {
+        // Play() can reject for many reasons (no src, not allowed, codec unsupported)
+        // Log and fail gracefully
+        console.warn('Audio play failed', err);
+        setIsPlaying(false);
       }
-      setIsPlaying(!isPlaying);
     }
   };
 
   const handleSeek = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (audioRef.current) {
-      const rect = e.currentTarget.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const percentage = x / rect.width;
-      const newTime = percentage * audioRef.current.duration;
-      audioRef.current.currentTime = newTime;
+    const audio = audioRef.current;
+    if (!audio) return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const percentage = Math.max(0, Math.min(1, x / rect.width));
+    const d = audio.duration || fallbackDuration || 0;
+    const newTime = percentage * d;
+    if (!isNaN(newTime) && isFinite(newTime)) {
+      audio.currentTime = newTime;
       setProgress(percentage * 100);
       setCurrentTime(newTime);
     }
   };
 
-  const handleAudioEnded = () => {
-    setIsPlaying(false);
-    setProgress(0);
-    setCurrentTime(0);
-    if (audioRef.current) {
-      audioRef.current.currentTime = 0;
-    }
-  };
-
-  // Generate fake waveform bars
+  // Generate waveform bars once per render (visual only)
   const waveformBars = Array.from({ length: 40 }, (_, i) => {
     const baseHeight = 20 + Math.random() * 60;
     const isActive = progress > (i / 40) * 100;
@@ -95,14 +119,15 @@ export function AudioMessage({ duration, audioUrl }: AudioMessageProps) {
         <audio
           ref={audioRef}
           src={audioUrl}
-          onEnded={handleAudioEnded}
+          preload="metadata"
         />
       )}
-      
+
       {/* Play/Pause Button */}
       <button
         onClick={togglePlayPause}
-        className="w-8 h-8 flex items-center justify-center rounded-full bg-purple-600 hover:bg-purple-700 transition-colors flex-shrink-0"
+    className="w-8 h-8 flex items-center justify-center rounded-full bg-purple-600 hover:bg-purple-700 transition-colors shrink-0"
+        aria-label={isPlaying ? 'Pause audio' : 'Play audio'}
       >
         {isPlaying ? (
           <Pause className="w-4 h-4 text-white fill-white" />
@@ -112,9 +137,13 @@ export function AudioMessage({ duration, audioUrl }: AudioMessageProps) {
       </button>
 
       {/* Waveform */}
-      <div 
+      <div
         className="flex-1 flex items-center gap-0.5 h-10 cursor-pointer"
         onClick={handleSeek}
+        role="slider"
+        aria-valuemin={0}
+        aria-valuemax={100}
+        aria-valuenow={Math.round(progress)}
       >
         {waveformBars.map((bar, index) => (
           <div
@@ -130,8 +159,8 @@ export function AudioMessage({ duration, audioUrl }: AudioMessageProps) {
       </div>
 
       {/* Duration */}
-      <span className="text-xs text-zinc-400 tabular-nums flex-shrink-0 min-w-[35px]">
-        {isPlaying ? formatTime(currentTime) : formatTime(duration)}
+  <span className="text-xs text-zinc-400 tabular-nums shrink-0 min-w-[35px]">
+        {isPlaying ? formatTime(currentTime) : formatTime(duration || fallbackDuration)}
       </span>
     </div>
   );
