@@ -15,8 +15,11 @@ const HomePage : React.FC = () => {
         () => void
     ];
 
+
     function handleCreateRoom() {
-        console.log("User Settings in HomePage:", userSettings);
+        socket.once('onCreateSuccess', (meetingId) => {
+            nav(`/meeting/${meetingId}`)
+        })
         socket.emit('createMeeting', {
             "modelId": "54e3a85ac9594ffa83264b8a494b901b",
             "user": {

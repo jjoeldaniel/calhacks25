@@ -6,14 +6,14 @@ import { UIRegister, useUI } from '../Contexts/UIContext'
 import { motion } from 'motion/react'
 
 export interface UserData {
-  headshot : string;
-  userName : string;
+  headshot: string;
+  userName: string;
   pronouns: string;
   bio: string;
 }
 
 export interface MeetingRoomData {
-  totalActiveUsers : number;
+  totalActiveUsers: number;
   roomName: string;
   aiName: string;
   aiIcon: string;
@@ -23,18 +23,24 @@ export interface MeetingRoomData {
 }
 
 const SidebarStateVariant = {
-  Open : {x:0,width:"240px"},
-  Close : {x:250,width:"0%"}
+  Open: { x: 0, width: "240px" },
+  Close: { x: 250, width: "0%" }
 }
 
-const MeetingLayout : React.FC = () => {
-  UIRegister("MeetingRoomData",{
-    totalActiveUsers : 0,
+const MeetingLayout: React.FC = () => {
+  UIRegister("UserSettings", {
+    userName: '',
+    pronouns: '',
+    bio: ''
+  })
+
+  UIRegister("MeetingRoomData", {
+    totalActiveUsers: 0,
     roomName: "2332",
     aiName: "Zephyr the Wise",
     aiIcon: "",
 
-    sidebarOpen : true,
+    sidebarOpen: true,
 
     activeUsers: [
       {
@@ -44,7 +50,7 @@ const MeetingLayout : React.FC = () => {
         pronouns: "he/him"
       }
     ]
-  },{removeOnUnmount:true})
+  }, { removeOnUnmount: true })
   const [MeetingInfo] = useUI("MeetingRoomData") as unknown as [
     MeetingRoomData,
     React.Dispatch<React.SetStateAction<MeetingRoomData>>
@@ -52,13 +58,13 @@ const MeetingLayout : React.FC = () => {
 
   return (
     <div className='flex w-full h-dvh'>
-        <main className='w-full h-full flex flex-col'>
-            <Navbar/>
-            <Outlet/>
-        </main>
-        <motion.div variants={SidebarStateVariant} animate={MeetingInfo?.sidebarOpen ? "Open" : "Close"} className='md:flex hidden'>
-            <Sidebar/>
-        </motion.div>
+      <main className='w-full h-full flex flex-col'>
+        <Navbar />
+        <Outlet />
+      </main>
+      <motion.div variants={SidebarStateVariant} animate={MeetingInfo?.sidebarOpen ? "Open" : "Close"} className='md:flex hidden'>
+        <Sidebar />
+      </motion.div>
     </div>
   )
 }

@@ -1,14 +1,9 @@
 import React, { useState } from 'react'
 import { usePopup } from '../Contexts/PopupContext'
 import { motion } from 'motion/react'
-import { UIRegister, useUI } from '../Contexts/UIContext'
+import { useUI } from '../Contexts/UIContext'
 
 const UserSettings : React.FC = () => {
-    UIRegister("UserSettings", {
-        userName: '',
-        pronouns: '',
-        bio: ''
-    })
     const [, hidePopup] = usePopup()
 
     const [getUsernameInput, setUsernameInput] = useState('') 
