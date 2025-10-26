@@ -1,1 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 @import "tailwindcss";
+
+@theme {
+    --color-main-bg: #09090B;
+    --color-accent-bg: #3F3F46;
+
+    --color-main-text: #FFFFFF;
+    --color-accent-text: #9F9FA9;
+    
+    --color-main-border: #27272A;
+
+    --color-main-positive: #39B34B;
+    --color-accent-positive: #00B8DB
+}
+
+:root {
+    background: var(--color-main-bg);
+}
+
+.flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
