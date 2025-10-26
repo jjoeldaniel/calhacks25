@@ -6,6 +6,7 @@ import './index.css'
 import App from './App.tsx'
 import HomePage from './Pages/HomePage.tsx'
 import JoinPage from './Pages/JoinPage.tsx'
+import { PopupContextProvider } from './Contexts/PopupContext.tsx'
 
 const queryClient = new QueryClient()
 
@@ -33,6 +34,8 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root') as Element).render(
   <QueryClientProvider client={queryClient}>
-    <RouterProvider router={router}/>
+    <PopupContextProvider>
+      <RouterProvider router={router}/>
+    </PopupContextProvider>
   </QueryClientProvider>
 )
