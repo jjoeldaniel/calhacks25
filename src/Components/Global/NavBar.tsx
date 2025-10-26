@@ -15,7 +15,7 @@ const NavBar : React.FC = () => {
                 </div>
                 {/* Title */}
 
-                <motion.button onClick={() => showPopup(<UserSettings/>)} whileHover={{opacity:.8, background : "var(--color-accent-bg)"}} whileTap={'Tap'} initial={'Initial'} className='flex-center min-w-[88px] h-full border border-main-border rounded-lg cursor-pointer gap-[10px]'>
+                <motion.button onClick={() => showPopup(<UserSettings/>)} whileHover={{opacity:.8, background : "var(--color-accent-bg)"}} whileTap={'Tap'} initial={'Initial'} className='flex-center min-w-[88px] h-full border border-main-border rounded-lg cursor-pointer gap-2.5'>
                     <img src="/Icons/Profile.svg" alt="" className='h-3.5' />
                     <span className='font-[inter] text-[14px] text-main-text'>User</span>
                 </motion.button>
