@@ -76,7 +76,7 @@ const ChatInterface: React.FC = () => {
                     {message?.isAI && (
                       <span className="text-xs text-purple-500 bg-purple-500/10 px-2 py-0.5 rounded">AI</span>
                     )}
-                    <span className="text-xs text-zinc-500">{formatTime(message?.timestamp)}</span>
+                    {/* <span className="text-xs text-zinc-500">{formatTime(message?.timestamp)}</span> */}
                   </div>
                   <p className="text-zinc-300 wrap-break-word">{message?.content}</p>
                   {/* Audio Message for AI */}
